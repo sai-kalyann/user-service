@@ -2,28 +2,28 @@ package com.kalyan.controller;
 
 import com.kalyan.model.User;
 import com.kalyan.repository.UserRepository;
+import com.kalyan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
-//@RequestMapping("/")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
+    UserService userService;
 
-    @PostMapping("/api/users")
-    public User createUser(@RequestBody User user){
-        return userRepository.save(user);
-    }
-    @GetMapping("/api/users")
-    public User getUser(){
-        User user = new User();
-        user.setEmail("kalyansaig22@gmail.com");
-        user.setFullName("sai kalyan gatttu");
-        user.setPhone("+1 3147606940");
-        user.setRole("customer");
-        return user;
-    }
+    @PostMapping("/createuser")
+   public User createUser(@RequestBody User user){
+       return userService.createUser(user);
+   }
+
+   @GetMapping("/{id}")
+   public User getUser(@PathVariable Long id){
+        return userService.getUserById(id);
+   }
 }
+
